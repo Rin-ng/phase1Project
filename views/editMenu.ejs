@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> List Menu</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+  </head>
+  <body>
+  <div class="container">
+  <h2 align="center"><%= editMenus.name%></h2>
+    <table class="table">
+  <thead>
+    <tr>
+      <th> Ingredients </th>
+      <th> Amount </th>
+      <th> Action </th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <% editMenus.Ingredients.forEach((menu)=>{ %>
+  <tr>
+    <td> <%= menu.name %> </td>
+    <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
+    <td> <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this Ingredient?')">Delete</a> </td>
+  </tr>
+    <% })%>
+  </tbody>
+    </table>
+  </div>
+  </body>
+</html>
