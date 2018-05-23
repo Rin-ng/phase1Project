@@ -11,11 +11,13 @@ router.get('/', (req, res) => {
     .then(function(dataEmployee) {
       res.render('showEmployee', {
         dataEmployee: dataEmployee,
-        error: true
+        error: true,
+        err:""
       })
     })
     .catch(function(err){
       res.render("showEmployee", {
+        dataEmployee: dataEmployee,
         error: true,
         err: err.message
       })

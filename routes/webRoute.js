@@ -13,6 +13,11 @@ router.get('/login', (req, res) => {
 
 
 // ============= dashboard =============
+router.get("/dashboard", (req,res)=>{
+  res.render("dashboard",{
+    error:false,
+  })
+})
 router.post('/dashboard', (req, res) => {
   Employee.findAll({
       where: {
