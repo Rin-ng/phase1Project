@@ -6,9 +6,6 @@
 
   <meta charset="utf-8">
   <title></title>
-  <h1 align="center"><%= home %></h1>
-  <h4 align="right"> <a href="/login"> Admin </a> </h4>
-
 </head>
 
 <body>
@@ -16,21 +13,16 @@
   <h3 style="text-align:center"><%= err%></h3>
   <% }%>
   <div class="container">
-    <h2 align="center">Our Menu:</h2>
+    <h2 align="center"><%= menus.name%></h2>
     <table class="table">
       <thead>
         <tr>
-          <th> Name </th>
-          <th> Price </th>
+          <th> Masuk sini lho </th>
+          <th>  </th>
         </tr>
       </thead>
       <tbody>
-        <% menus.forEach((menu)=>{ %>
-        <tr>
-          <td> <a href="/menu/<%= menu.id%>/details"> <%= menu.name %> </a></td>
-          <td> <%= helper.addIdr(menu) %> </td>
-        </tr>
-        <% })%>
+      
       </tbody>
     </table>
   </div>

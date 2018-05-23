@@ -160,6 +160,58 @@ router.get('/add', (req, res) => {
 
 //========== delete menu ===========
 
+//========== menu details ===========
+router.get("/:id/details", function(req,res){
+  let menuId = req.params.id;
 
+  Menu.findOne({
+    where: {
+      id: menuId
+    },
+    include: [{
+      model: Ingredient
+    }],
+    order: [
+      [Ingredient, Recipe, 'id', 'ASC']
+    ]
+  })
+  .then(function(menu){
+    Ingredient.findAll()
+    .then(function(ingredient){
+      res.render("menudetails",
+      {
+        menus: menu,
+        ingredient: ingredient,
+        error: false
+      })
+    })
+  })
+  .catch(function(err){
+    Menu.findOne({
+      where: {
+        id: menuId
+      },
+      include: [{
+        model: Ingredient
+      }],
+      order: [
+        [Ingredient, Recipe, 'id', 'ASC']
+      ]
+    })
+    .then(function(menu){
+      Ingredient.findAll()
+      .then(function(ingredient){
+        res.render("menudetails",
+        {
+          menu: menu,
+          ingredient: ingredient,
+          error: true,
+          err:err.message
+        })
+      })
+    })
+  })
+
+})
 
 module.exports = router;
