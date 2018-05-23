@@ -2,33 +2,49 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title> List Menu</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
+    <title>List Menu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   </head>
+
   <body>
-  <div class="container">
-  <h2 align="center"><%= editMenus.name%></h2>
-    <table class="table">
-  <thead>
-    <tr>
-      <th> Ingredients </th>
-      <th> Amount </th>
-      <th> Action </th>
-
-
-    </tr>
-  </thead>
-  <tbody>
-    <% editMenus.Ingredients.forEach((menu)=>{ %>
-  <tr>
-    <td> <%= menu.name %> </td>
-    <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
-    <td> <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this Ingredient?')">Delete</a> </td>
-  </tr>
-    <% })%>
-  </tbody>
-    </table>
-  </div>
+    <div class="container">
+      <h2 align="center"><%= editMenus.name%></h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> Ingredients </th>
+            <th> Amount </th>
+            <th> Action </th>
+          </tr>
+        </thead>
+        <tbody>
+        <% editMenus.Ingredients.forEach((menu)=>{ %>
+          <tr>
+            <td> <%= menu.name %> </td>
+            <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
+            <td> <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this Ingredient?')">Delete</a> </td>
+          </tr>
+        <% })%>
+        </tbody>
+      </table>
+      <br>
+      <label style="font-weight:bold; text-decoration:underline;">Add Ingredients: </label>
+      <br>
+      <form action="/menu/<%= editMenus.id%>/edit" method="POST">
+        <select style="min-width: 200px;">
+          <option value="" selected disabled hidden>Choose Ingredients</option>
+          <% ingredient.forEach((ingredient)=>{ %>
+            <option value="<%= ingredient.id%>" ><%= ingredient.name%></option>
+          <% })%>
+        </select>
+        &nbsp; &nbsp; &nbsp;
+        <label>Quantity:</label>
+        &nbsp;
+        <input type="text" name="qty">
+      <br>
+      <br>
+      <button type="submit">Add</button>
+    </form>
+    </div>
   </body>
 </html>

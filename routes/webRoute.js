@@ -2,6 +2,10 @@ const fs = require('fs');
 var express = require('express')
 var router = express()
 const Model = require('./../models');
+const Menu = Model.Menu;
+const Employee = Model.Employee;
+const Ingredient = Model.Ingredient;
+const Recipe = Model.Recipe;
 
 // ============ login =============
 router.get('/login', (req, res) => {
@@ -11,7 +15,7 @@ router.get('/login', (req, res) => {
 
 // ============= dashboard =============
 router.post('/dashboard', (req, res) => {
-  Model.Employee.findAll({
+  Employee.findAll({
       where: {
         username: req.body.username,
         password: req.body.password
@@ -22,14 +26,17 @@ router.post('/dashboard', (req, res) => {
         dataEmployee
       })
     })
+    .catch(function(err){
+
+    })
 })
 
 
 // ============== show menu =============
 router.get('/menu', (req, res) => {
-  Model.Menu.findAll({
+  Menu.findAll({
       include: [{
-        model: Model.Ingredient
+        model: Ingredient
       }],
       order: [
         ['id', 'ASC']
@@ -45,7 +52,7 @@ router.get('/menu', (req, res) => {
 //============= show employee ===========
 
 router.get('/employees', (req, res) => {
-  Model.Employee.findAll()
+  Employee.findAll()
     .then(function(dataEmployee) {
       res.render('showEmployee', {
         dataEmployee
@@ -60,7 +67,7 @@ router.get('/employees/add', (req, res) => {
 
 //========== add employee post =========
 router.post('/employees/add', (req, res) => {
-  Model.Employee.create({
+  Employee.create({
       name: req.body.name,
       username: req.body.username,
       password: req.body.username
@@ -73,25 +80,40 @@ router.post('/employees/add', (req, res) => {
 //============= edit menu ============
 
 router.get('/menu/:id/edit', (req, res) => {
-  Model.Menu.findOne({
-      where: {
-        id: req.params.id
-      },
-      include: [{
-        model: Model.Ingredient
-      }]
-    })
-    .then(function(editMenus) {
+
+  Menu.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{
+      model: Ingredient
+    }],
+    order: [
+      [Ingredient, Recipe, 'id', 'ASC']
+    ]
+  })
+  .then(function(editMenus) {
+    Ingredient.findAll()
+    .then(function(ingredients){
       res.render('editMenu', {
-        editMenus
+        ingredient: ingredients,
+        editMenus,
       })
-      // res.send(editMenus)
+    // res.send(editMenus)
     })
+  })
+  .catch(function(err){
+    console.log(err);
+  })
+})
+
+router.post("/menu/:id/edit", function(req,res){
+  
 })
 
 // ============== delete menu ===========
 router.get('/menu/:id/delete', (req, res) => {
-  Model.Menu.destroy({
+  Menu.destroy({
       where: {
         id: req.params.id
       }
@@ -103,7 +125,7 @@ router.get('/menu/:id/delete', (req, res) => {
 
 //=========== add menu ===============
 router.get('/menu/add', (req, res) => {
-  Model.Ingredient.findAll()
+  Ingredient.findAll()
     .then(function(ingredients) {
       res.render('addMenu', {
         ingredients
