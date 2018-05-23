@@ -10,14 +10,30 @@ router.get('/', (req, res) => {
   Employee.findAll()
     .then(function(dataEmployee) {
       res.render('showEmployee', {
-        dataEmployee
+        dataEmployee: dataEmployee,
+        error: true
+      })
+    })
+    .catch(function(err){
+      res.render("showEmployee", {
+        error: true,
+        err: err.message
       })
     })
 })
 
 //============= add employee ============
 router.get('/add', (req, res) => {
-  res.render('addEmployee')
+  res.render('addEmployee', {
+    error: false
+  })
+  .catch(function(err){
+    res.render("addEmployee", {
+      error: true,
+      err: err.message
+    })
+  })
+
 })
 
 //========== add employee post =========
@@ -25,10 +41,17 @@ router.post('/add', (req, res) => {
   Employee.create({
       name: req.body.name,
       username: req.body.username,
-      password: req.body.username
+      password: req.body.username,
+      error: false
     })
     .then(function() {
       res.redirect('/')
+    })
+    .catch(function(err){
+      res.render("addEmployee", {
+        error: true,
+        err: err.message}
+      )
     })
 })
 

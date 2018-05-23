@@ -6,6 +6,9 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   </head>
   <body>
+  <% if (error) {%>
+  <h3 style="text-align:center"><%= err%></h3>
+  <% }%>
   <div class="container">
   <h2 align="center">Dashboard</h2>
   <h5 align ="center"> <a href="/employees"> Show Employee </a> </h5>

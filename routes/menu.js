@@ -18,8 +18,15 @@ router.get('/', (req, res) => {
     })
     .then((menus) => {
       res.render('menu', {
-        menus
+        menus: menus,
+        error: false
       })
+    })
+    .catch(function(err){
+      res.render("menu", {
+        error: true,
+        err: err.message}
+      )
     })
 })
 
@@ -43,41 +50,116 @@ router.get('/:id/edit', (req, res) => {
     .then(function(ingredients){
       res.render('editMenu', {
         ingredient: ingredients,
-        editMenus,
+        editMenus: editMenus,
+        error: false
       })
-    // res.send(editMenus)
     })
   })
   .catch(function(err){
-    console.log(err);
+    Menu.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [{
+        model: Ingredient
+      }],
+      order: [
+        [Ingredient, Recipe, 'id', 'ASC']
+      ]
+    })
+    .then(function(editMenus) {
+      Ingredient.findAll()
+      .then(function(ingredients){
+        res.render("editMenu", {
+          ingredient: ingredients,
+          editMenus: editMenus,
+          error: true,
+          err: err.message
+        })
+      })
+    })
   })
 })
 
 router.post("/:id/edit", function(req,res){
-  console.log(req.body);
-})
-
-// ============== delete menu ===========
-router.get('/:id/delete', (req, res) => {
-  Menu.destroy({
+  let input = req.body;
+  let menuId = req.params.id;
+  Recipe.create({
+    MenuId: menuId,
+    IngredientId: input.ingredient,
+    quantity: input.qty
+  })
+  .then(function(){
+    res.redirect("/menu");
+  })
+  .catch(function(err){
+    Menu.findOne({
       where: {
         id: req.params.id
+      },
+      include: [{
+        model: Ingredient
+      }],
+      order: [
+        [Ingredient, Recipe, 'id', 'ASC']
+      ]
+    })
+    .then(function(editMenus) {
+      Ingredient.findAll()
+      .then(function(ingredients){
+        res.render("editMenu", {
+          ingredient: ingredients,
+          editMenus: editMenus,
+          error: true,
+          err: err.message
+        })
+      })
+    })
+  })
+})
+
+// ============== delete Ingredient ===========
+router.get('/:menuId/:ingId/delete', (req, res) => {
+  let ingredientId = req.params.ingId;
+  let menuId = req.params.menuId;
+
+   Recipe.destroy({
+      where: {
+        MenuId: menuId,
+        IngredientId : ingredientId
       }
     })
-    .then(function() {
-      res.redirect('/menu')
-    })
+  .then(function() {
+    res.redirect('/menu')
+  })
+  .catch(function(err){
+    //???
+  })
 })
 
 //=========== add menu ===============
 router.get('/add', (req, res) => {
   Ingredient.findAll()
+  .then(function(ingredients) {
+    res.render('addMenu', {
+      ingredients: ingredients,
+      error: false
+    })
+  })
+  .catch(function(err){
+    Ingredient.findAll()
     .then(function(ingredients) {
       res.render('addMenu', {
-        ingredients
+        error: true,
+        err: err.message
       })
     })
+  })
 })
+
+
+//========== delete menu ===========
+
 
 
 module.exports = router;

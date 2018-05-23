@@ -7,6 +7,9 @@
   </head>
 
   <body>
+    <% if (error) {%>
+    <h3 style="text-align:center"><%= err%></h3>
+    <% }%>
     <div class="container">
       <h2 align="center"><%= editMenus.name%></h2>
       <table class="table">
@@ -22,7 +25,7 @@
           <tr>
             <td> <%= menu.name %> </td>
             <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
-            <td> <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this Ingredient?')">Delete</a> </td>
+            <td> <a href="/menu/<%= editMenus.id%>/<%= menu.id%>/delete"  onclick="return confirm('delete this Ingredient?')">Delete</a> </td>
           </tr>
         <% })%>
         </tbody>
@@ -31,7 +34,7 @@
       <label style="font-weight:bold; text-decoration:underline;">Add Ingredients: </label>
       <br>
       <form action="/menu/<%= editMenus.id%>/edit" method="POST">
-        <select style="min-width: 200px;">
+        <select name="ingredient" style="min-width: 200px;">
           <option value="" selected disabled hidden>Choose Ingredients</option>
           <% ingredient.forEach((ingredient)=>{ %>
             <option value="<%= ingredient.id%>" ><%= ingredient.name%></option>

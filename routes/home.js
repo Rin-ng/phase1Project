@@ -4,7 +4,10 @@ var router = express()
 
 router.get('/',(req,res)=>{
   res.render('homeView',
-  {home:'Simple Coffee Shop'})
+  {
+    home:'Simple Coffee Shop',
+    error: false
+  })
 })
 
 

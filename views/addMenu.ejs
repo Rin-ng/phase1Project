@@ -10,7 +10,9 @@
 </head>
 
 <body>
-
+  <% if (error) {%>
+  <h3 style="text-align:center"><%= err%></h3>
+  <% }%>
   <div class="container">
     <div class="row">
       <div class="form-group">

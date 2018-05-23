@@ -6,7 +6,9 @@ const Employee = Model.Employee;
 
 // ============ login =============
 router.get('/login', (req, res) => {
-  res.render('loginForm')
+  res.render('loginForm', {
+    error: false
+  })
 })
 
 
@@ -20,11 +22,15 @@ router.post('/dashboard', (req, res) => {
     })
     .then(function(dataEmployee) {
       res.render('dashboard', {
-        dataEmployee
+        dataEmployee: dataEmployee,
+        error: false
       })
     })
     .catch(function(err){
-
+      res.render("dashboard", {
+        error: true,
+        err: err.message}
+      )
     })
 })
 

@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
     <meta charset="utf-8">
     <title> List Menu</title>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
   </head>
-  <body>
-  <div class="container">
-  <h2 align="center">List Menu</h2>
-  <h5 align="center"> <a href="/menu/add"> Add Menu </a></h5>
-    <table class="table">
-  <thead>
-    <tr>
-      <th> Id </th>
-      <th> Name </th>
-      <th> Price </th>
-      <th> Option </th>
 
-    </tr>
-  </thead>
-  <tbody>
-    <% menus.forEach((menu)=>{ %>
-  <tr>
-    <td><%= menu.id %></td>
-    <td> <%= menu.name %> </td>
-    <td> <%= helper.addIdr(menu) %> </td>
-    <td> <a href="/menu/<%= menu.id%>/edit"> Edit</a> | <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this menu?')">Delete</a> </td>
-  </tr>
-    <% })%>
-  </tbody>
-    </table>
-  </div>
+  <body>
+    <% if (error) {%>
+    <h3 style="text-align:center"><%= err%></h3>
+    <% }%>
+    <div class="container">
+      <h2 align="center">List Menu</h2>
+      <h5 align="center"> <a href="/menu/add"> Add Menu </a></h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> Id </th>
+            <th> Name </th>
+            <th> Price </th>
+            <th> Option </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% menus.forEach((menu)=>{ %>
+          <tr>
+            <td><%= menu.id %></td>
+            <td> <%= menu.name %> </td>
+            <td> <%= helper.addIdr(menu) %> </td>
+            <td> <a href="/menu/<%= menu.id%>/edit"> Edit</a> | <a href="/menu/<%= menu.id%>/delete"  onclick="return confirm('delete this menu?')">Delete</a> </td>
+          </tr>
+          <% })%>
+        </tbody>
+      </table>
+    </div>
   </body>
+  
 </html>
