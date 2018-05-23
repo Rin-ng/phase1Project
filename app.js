@@ -28,6 +28,17 @@ app.use('/',homeRoutes)
 const webRoute = require('./routes/webRoute');
 app.use('/',webRoute)
 
+
+// ============== menu =============
+const menuRoutes = require ("./routes/menu");
+app.use("/menu", menuRoutes);
+
+
+//============= employee ===========
+const employeeRoutes = require ("./routes/employee");
+app.use("/employees", employeeRoutes);
+
+
 //================= employee list =========
 // const employeeRoutes = require('./routes/employee');
 // app.use('/employees',employeeRoutes)
