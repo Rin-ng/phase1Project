@@ -90,7 +90,9 @@ router.post("/:id/edit", function(req,res){
     quantity: input.qty
   })
   .then(function(){
-    res.redirect("/menu");
+
+    let route_str = "/menu/" + `${menuId}`+"/edit";
+    res.redirect(route_str);
   })
   .catch(function(err){
     Menu.findOne({
@@ -130,35 +132,88 @@ router.get('/:menuId/:ingId/delete', (req, res) => {
       }
     })
   .then(function() {
-    res.redirect('/menu')
+
+    let route_str = "/menu/" + `${menuId}`+"/edit";
+    res.redirect(route_str)
   })
   .catch(function(err){
-    //???
+    Menu.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [{
+        model: Ingredient
+      }],
+      order: [
+        [Ingredient, Recipe, 'id', 'ASC']
+      ]
+    })
+    .then(function(editMenus) {
+      Ingredient.findAll()
+      .then(function(ingredients){
+        res.render("editMenu", {
+          ingredient: ingredients,
+          editMenus: editMenus,
+          error: true,
+          err: err.message
+        })
+      })
+    })
   })
 })
 
 //=========== add menu ===============
 router.get('/add', (req, res) => {
-  Ingredient.findAll()
-  .then(function(ingredients) {
-    res.render('addMenu', {
-      ingredients: ingredients,
-      error: false
-    })
+  res.render('addMenu', {
+    error: false
+  })
+})
+
+router.post("/add", function(req,res){
+  let input = req.body;
+
+  Menu.create({
+    name: input.name,
+    price: input.price
+  })
+  .then(function(){
+    res.redirect("/menu")
   })
   .catch(function(err){
-    Ingredient.findAll()
-    .then(function(ingredients) {
-      res.render('addMenu', {
-        error: true,
-        err: err.message
-      })
+    res.render("addMenu", {
+      error: true,
+      err: err.message
     })
   })
 })
 
 
 //========== delete menu ===========
+router.get('/:id/delete', (req, res) => {
+  let menuId = req.params.id;
+   Menu.destroy({
+      where: {
+        id: menuId,
+      }
+    })
+    .then(function(){
+      Recipe.destroy({
+        where: {
+          MenuId: menuId
+        }
+      })
+      .then(function(){
+        res.redirect("/menu");
+      })
+    })
+    .catch(function(err){
+      res.render("/menu", {
+        error: true,
+        err: err.message
+      })
+    })
+})
+
 
 //========== menu details ===========
 router.get("/:id/details", function(req,res){
