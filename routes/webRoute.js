@@ -3,6 +3,11 @@ var express = require('express')
 var router = express()
 const Model = require('./../models');
 const Employee = Model.Employee;
+const bcrypt = require('bcrypt')
+let saltRounds = 10
+const {authLogin} = require('../middlewares/auth.js');
+
+
 
 // ============ login =============
 router.get('/login', (req, res) => {
@@ -12,10 +17,50 @@ router.get('/login', (req, res) => {
 })
 
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   lagi kerjain ini >>>>>>>>>>>>>>>>>>>>>
+//========== login bcrypt and session ==========
+
+router.post('/login',(req, res) => {
+console.log('==========',req.body)
+  let pass = req.body.password
+  let salt = bcrypt.genSaltSync(saltRounds)
+  let hash = bcrypt.hashSync(pass, salt)
+  let compare = bcrypt.compareSync(pass, hash)
+
+  Model.Employee.findOne({
+
+      where: {
+        username: req.body.username,
+        password:req.body.password
+      }
+    })
+    .then(function(user) {
+
+      if (user && compare) {
+        req.session.name = user.name,
+          req.session.username = user.username,
+          req.session.password = user.password
+
+        res.redirect('/dashboard')
+
+      } else {
+        res.render('loginForm', {
+          error: {
+            message: 'incorect password / username'
+          }
+        })
+      }
+    })
+
+})
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   lagi kerjain ini >>>>>>>>>>>>>>>>>>>>>
+
+
+
 // ============= dashboard =============
-router.get("/dashboard", (req,res)=>{
-  res.render("dashboard",{
-    error:false,
+router.get("/dashboard", authLogin, (req, res) => {
+  res.render("dashboard", {
+    error: false,
   })
 })
 router.post('/dashboard', (req, res) => {
@@ -31,11 +76,11 @@ router.post('/dashboard', (req, res) => {
         error: false
       })
     })
-    .catch(function(err){
+    .catch(function(err) {
       res.render("dashboard", {
         error: true,
-        err: err.message}
-      )
+        err: err.message
+      })
     })
 })
 

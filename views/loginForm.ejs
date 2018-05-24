@@ -9,23 +9,23 @@
 
 <body>
   <% if (error) {%>
-  <h3 style="text-align:center"><%= err%></h3>
-  <% }%>
-  <div class="container">
-    <div class="row">
-      <div class="form-group">
-        <form action="/dashboard" method="POST">
-          Username:<br>
-          <input type="text" name="username" class="form-control">
-          <br> Password:
-          <br>
-          <input type="password" name="password" class="form-control">
-          <br>
-          <input type="submit" value="Login" class="btn btn-primary">
-        </form>
+    <h3 style="text-align:center"><%= error.message %></h3>
+    <% }%>
+      <div class="container">
+        <div class="row">
+          <div class="form-group">
+            <form action="/login" method="POST">
+              Username:<br>
+              <input type="text" name="username" class="form-control">
+              <br> Password:
+              <br>
+              <input type="password" name="password" class="form-control">
+              <br>
+              <input type="submit" value="Login" class="btn btn-primary">
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 </body>
 
 </html>
