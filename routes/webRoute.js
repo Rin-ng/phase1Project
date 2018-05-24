@@ -21,37 +21,45 @@ router.get('/login', (req, res) => {
 //========== login bcrypt and session ==========
 
 router.post('/login',(req, res) => {
-console.log('==========',req.body)
-  let pass = req.body.password
-  let salt = bcrypt.genSaltSync(saltRounds)
-  let hash = bcrypt.hashSync(pass, salt)
-  let compare = bcrypt.compareSync(pass, hash)
+  // console.log('==========',req.body)
+    let pass = req.body.password
+    let salt = bcrypt.genSaltSync(saltRounds)
+    let hash = bcrypt.hashSync(pass, salt)
+    // let compare = bcrypt.compareSync(pass, hash)
+    // console.log('==========',pass)
+    // console.log('========1=',hash)
+      // console.log('=======2==',compare)
 
   Model.Employee.findOne({
-
-      where: {
-        username: req.body.username,
-        password:req.body.password
+    where: {
+      username: req.body.username,
+    }
+  })
+  .then(function(user) {
+    // console.log(user.password)
+    let compare = bcrypt.compareSync(pass, user.password)
+    // console.log("---------compare-: ", compare)
+    if (compare === true) {
+      req.session.name = user.name,
+      req.session.username = user.username,
+      req.session.password = user.password
+      res.redirect('/dashboard')
+    }
+    else {
+     res.render('loginForm', {
+       error: {
+         message: 'incorrect password / username'
+        }
+      })
+    }
+  })
+  .catch(function(err){
+    res.render("loginForm", {
+      error: {
+        message: "Username and Password must be filled!"
       }
     })
-    .then(function(user) {
-
-      if (user && compare) {
-        req.session.name = user.name,
-          req.session.username = user.username,
-          req.session.password = user.password
-
-        res.redirect('/dashboard')
-
-      } else {
-        res.render('loginForm', {
-          error: {
-            message: 'incorect password / username'
-          }
-        })
-      }
-    })
-
+  })
 })
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   lagi kerjain ini >>>>>>>>>>>>>>>>>>>>>
 

@@ -1,6 +1,12 @@
 function formatQuantity(params){
 let ingredientQuantity =params.Recipe.quantity
-return `${ingredientQuantity} tbsp`
+if(params.Recipe.IngredientId === 4){
+  return `${ingredientQuantity} cup`
+}
+else{
+  return `${ingredientQuantity} tbsp`
+}
+
 
 }
 
