@@ -57,13 +57,13 @@ router.get("/:id/delete", function(req,res){
      }
    })
  .then(function() {
-   AdditionalIngredient.destroy(new Promise(function(resolve, reject) {
+   AdditionalIngredient.destroy({
      where:{
        OrderId: orderId
      }
-   }))
+   })
    .then(function(){
-     res.redirect('/dashboard')
+     res.redirect('/orders')
    })
  })
  .catch(function(err){
