@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER
   }, {});
   Menu.associate = function(models) {
-    Menu.belongsToMany(models.Ingredient,{through:models.Recipe})
+    Menu.belongsToMany(models.Ingredient, { through: models.Recipe })
+    Menu.hasMany(models.Order);
   };
   return Menu;
 };

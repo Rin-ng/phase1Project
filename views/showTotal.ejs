@@ -16,21 +16,6 @@
     <h2 align="center"><%= menus.name%></h2>
     <h5 align="center">Price: <%= helper.addIdr(menus) %></h5>
     <hr>
-    <table align="center">
-      <thead>
-          <th style="text-decoration:underline"> Default menu: <th>
-        </tr>
-      </thead>
-      <tbody>
-        <% menus.Ingredients.forEach((menu)=>{ %>
-        <tr>
-          <td> <%= menu.name %> </td>
-          <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
-        </tr>
-        <% })%>
-      </tbody>
-    </table>
-    <hr>
     <br>
 
     <form action="/menu/<%= menus.id%>/details/add" method="POST">
@@ -43,23 +28,23 @@
         </tr>
       </thead>
       <tbody>
-        <% ingredient.forEach((ingredient)=>{ %>
+        <% for(let i = 0; i < ingredient.length; i++){ %>
         <tr style="text-align: center">
-          <td><input type="text" name="<%= ingredient.id%>" style="max-width: 45px"> </td>
-          <td><%= ingredient.name %> </td>
-          <td><%= helper.addIdr(ingredient) %></td>
+          <td><%= addOn[i] %> </td>
+          <td><%= ingredient[i] %> </td>
+          <td><%= formatValue(price[i]) %></td>
         </tr>
-      <% })%>
+      <% }%>
       </tbody>
     </table>
   </div>
   <br> <br>
   <div style="text-align:center">
-    <label>Customer Name:</label>
-    <input type="text" name="customerName" required>
+    <label> Total Price: <span style="font-weight:bold"><%= formatValue(totalPrice) %></span></label>
+    <br><br>
+    <label style="font-weight: bold"> Thank you for your purchase! Please come again! </label>
     <br> <br>
-    <button type="submit" onclick="return confirm('Continue Purchase?')">Buy</button>
-    <button type="button" style="margin-left: 30px;"><a href="/" style="text-decoration:none; color:black;">Cancel</a></button>
+    <button type="button" style="margin-left: 30px;"><a href="/" style="text-decoration:none; color:black;">Close</a></button>
   </form>
   </div>
 
