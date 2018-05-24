@@ -5,6 +5,8 @@ const Model = require('./../models');
 const Menu = Model.Menu;
 const Ingredient = Model.Ingredient;
 const Recipe = Model.Recipe;
+const Order = Model.Order;
+const AdditionalIngredient = Model.additionalIngredient;
 
 // ============== show menu =============
 router.get('/', (req, res) => {
@@ -42,7 +44,7 @@ router.get('/:id/edit', (req, res) => {
       model: Ingredient
     }],
     order: [
-      [Ingredient, Recipe, 'id', 'ASC']
+      [Ingredient, Recipe, 'IngredientId', 'ASC']
     ]
   })
   .then(function(editMenus) {
@@ -227,17 +229,23 @@ router.get("/:id/details", function(req,res){
       model: Ingredient
     }],
     order: [
-      [Ingredient, Recipe, 'id', 'ASC']
+      [Ingredient, Recipe, 'IngredientId', 'ASC']
     ]
   })
   .then(function(menu){
-    Ingredient.findAll()
+    Ingredient.findAll({
+      order:[
+        ["id", "ASC"]
+      ]
+    })
     .then(function(ingredient){
+
+      console.log(req.body);
       res.render("menudetails",
       {
         menus: menu,
         ingredient: ingredient,
-        error: false
+        error: false,
       })
     })
   })
@@ -266,7 +274,78 @@ router.get("/:id/details", function(req,res){
       })
     })
   })
-
 })
+
+router.post("/:id/details/add", function(req,res){
+  let input = req.body;
+  let id = Number(req.params.id);
+
+  Order.create({
+    MenuId: id,
+    customerName: input.customerName
+  })
+  .then(function(order){
+
+    let additionalIngredients = [];
+
+    for (let key in input) {
+      if (key !== 'customerName' && input[key] !== '') {
+        const IngredientId = Number(key);
+        const addOn = Number(input[key]);
+        additionalIngredients.push({ OrderId: order.id, IngredientId, addOn });
+      }
+    }
+    AdditionalIngredient.bulkCreate( additionalIngredients)
+    .then(function(){
+      AdditionalIngredient.findAll({
+        include: [
+          {
+            model: Order,
+            where: {id : order.id},
+            include: [ { model: Menu } ]
+          },
+          {
+            model: Ingredient
+          }
+        ]
+      })
+      .then(function(specialOrder){
+        let addOnPrice = 0;
+        let addOnQty = [];
+        let ingredient = []
+        let price = []
+        let menuPrice = specialOrder[0].Order.Menu.price;
+        for(let i = 0; i < specialOrder.length; i++){
+          addOnPrice += (Number(specialOrder[i].Ingredient.price) * Number(specialOrder[i].addOn));
+          ingredient.push(specialOrder[i].Ingredient.name);
+          addOnQty.push(specialOrder[i].addOn);
+          price.push(Number(specialOrder[i].Ingredient.price) * Number(specialOrder[i].addOn))
+      }
+
+        let totalPrice = menuPrice + addOnPrice;
+        let orderId = specialOrder[0].Order.id;
+
+        Order.update({
+          totalPrice: totalPrice
+        }, {where: {id: orderId}})
+        .then(function(order){
+          res.render("showTotal",
+          {
+            menus: specialOrder[0].Order.Menu,
+            ingredient: ingredient,
+            addOn: addOnQty,
+            error: false,
+            price: price,
+            totalPrice: totalPrice
+          })
+        })
+      })
+    })
+  })
+  .catch(function(err){
+    res.render(err);
+  })
+})
+
 
 module.exports = router;
