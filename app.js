@@ -20,6 +20,11 @@ app.use((req,res,next)=>{
   next()
 })
 
+app.use((req,res,next)=>{
+  res.locals.formatValue = require('./helper/formatIdr.js')
+  next()
+})
+
 //================= home route============
 const homeRoutes = require('./routes/home');
 app.use('/',homeRoutes)
@@ -39,8 +44,8 @@ const employeeRoutes = require ("./routes/employee");
 app.use("/employees", employeeRoutes);
 
 
-//================= employee list =========
-// const employeeRoutes = require('./routes/employee');
-// app.use('/employees',employeeRoutes)
+//=============== orders ===================
+const ordersRoutes = require("./routes/orders");
+app.use("/orders", ordersRoutes);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

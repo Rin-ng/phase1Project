@@ -14,7 +14,7 @@ module.exports = {
     */
     return queryInterface.bulkInsert('Menus', [
       {
-      name: 'Coffe Latte',
+      name: 'Coffee Latte',
       price: 50000,
       createdAt: new Date,
       updatedAt : new Date

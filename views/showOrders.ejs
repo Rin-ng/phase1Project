@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title> List Menu</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <% if (error) {%>
+    <h3 style="text-align:center"><%= err%></h3>
+    <% }%>
+    <div class="container">
+      <h2 align="center">Orders Report</h2>
+      <br>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> Id </th>
+            <th> Customer Name </th>
+            <th> Menu Name </th>
+            <th> Modified Ingredients</th>
+            <th> Quantity </th>
+            <th> Total Price </th>
+            <th> Option </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < orders.length; i++){ %>
+          <tr>
+            <td><%= orders[i].id %></td>
+            <td> <%= orders[i].customerName %> </td>
+            <td> <%= orders[i].Menu.name %> </td>
+            <td>
+              <ul>
+                <%  for(let k = 0; k < orders[i].additionalIngredients.length; k++){ %>
+                  <li> <%= orders[i].additionalIngredients[k].Ingredient.name %> </li>
+                <%}%>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <%  for(let j = 0; j < orders[i].additionalIngredients.length; j++){ %>
+                  <li> <%= orders[i].additionalIngredients[j].addOn %> </li>
+                <%}%>
+              </ul>
+            </td>
+            <td> <%= formatValue(orders[i].totalPrice) %> </td>
+            <td><a href="/orders/<%= orders[i].id%>/delete"  onclick="return confirm('delete this order details?')">Delete</a> </td>
+          </tr>
+          <% }%>
+        </tbody>
+      </table>
+      <button type="button" style="float:right; margin-right: 50px">
+        <a href="/dashboard" style="color: black; text-decoration:none;">Back</a>
+      </button>
+    </div>
+  </body>
+
+</html>

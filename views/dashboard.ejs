@@ -6,13 +6,23 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   </head>
   <body>
-  <% if (error) {%>
-  <h3 style="text-align:center"><%= err%></h3>
-  <% }%>
-  <div class="container">
-  <h2 align="center">Dashboard</h2>
-  <h5 align ="center"> <a href="/employees"> Show Employee </a> </h5>
-  <h5 align ="center"> <a href="/menu"> Show Menu </a> </h5>
-  </div>
+    <% if (error) {%>
+    <h3 style="text-align:center"><%= err%></h3>
+    <% }%>
+    <div class="container">
+    <h2 align="center">Dashboard</h2>
+    <h5 align ="center"> <a href="/employees"> Show Employee </a> </h5>
+    <h5 align ="center"> <a href="/menu"> Show Menu </a> </h5>
+    <h5 align ="center"> <a href="/orders"> Show Orders </a> </h5>
+    </div>
+
+    <br>
+    <br>
+
+    <h5 align ="center">
+      <a href="/" style="text-decoration:underline; border: solid 2px; padding: 15px; border-top-left-radius: 25px; border-bottom-right-radius: 25px">
+      Home
+      </a>
+    </h5>
   </body>
 </html>

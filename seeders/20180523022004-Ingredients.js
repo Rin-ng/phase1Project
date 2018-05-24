@@ -13,7 +13,7 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('Ingredients', [{
-      name: 'Coffe',
+      name: 'Coffee',
       createdAt: new Date,
       updatedAt : new Date
     },
