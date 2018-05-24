@@ -10,6 +10,14 @@ let ejs = require('ejs')
 app.set('view engine', 'ejs')
 app.set('views', '/views')
 
+var session = require('express-session')
+
+app.use(session({
+    secret: 'QIxaBmT',
+    resave: false,
+    saveUninitialized: true,
+  }))
+
 app.use((req,res,next)=>{
   res.locals.helper = require('./helper/idrFormat.js')
   next()
