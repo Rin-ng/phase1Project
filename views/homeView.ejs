@@ -27,7 +27,7 @@
       <tbody>
         <% menus.forEach((menu)=>{ %>
         <tr>
-          <td> <a href="/menu/<%= menu.id%>/details"> <%= menu.name %> </a></td>
+          <td> <a href="/menu/<%= menu.id%>/details"> <%= menu.getType() %> </a></td>
           <td> <%= helper.addIdr(menu) %> </td>
         </tr>
         <% })%>
