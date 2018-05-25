@@ -48,7 +48,11 @@ router.get('/:id/edit', (req, res) => {
     ]
   })
   .then(function(editMenus) {
-    Ingredient.findAll()
+    Ingredient.findAll({
+      order: [
+      ['id', 'ASC']
+      ]
+    })
     .then(function(ingredients){
       res.render('editMenu', {
         ingredient: ingredients,

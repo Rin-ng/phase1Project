@@ -6,7 +6,11 @@ const Menu = Model.Menu;
 const Ingredient = Model.Ingredient;
 
 router.get('/',(req,res)=>{
-  Menu.findAll({})
+  Menu.findAll({
+    order: [
+    ['id', 'ASC']
+    ]
+  })
   .then(function(menu){
     // console.log(menu);
     Ingredient.findAll()
