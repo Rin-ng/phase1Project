@@ -1,24 +1,28 @@
 'use strict';
 
+// const model = require('../models')
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
 
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-    return queryInterface.bulkInsert('Employees', [{
+
+    // models.Employee.create({
+    //   name: 'brama',
+    //   username: 'bramPrasetyo',
+    //   password:'12345',
+    //   createdAt: new Date,
+    //   updatedAt: new Date
+    // }).then(function() {
+    //   console.log('done')
+    // })
+
+    return queryInterface.create('Employees', [{
       name: 'brama',
       username: 'bramPrasetyo',
-      password:'12345',
+      password:'$2b$10$pmDV.f7p3omqT3obJ84bCeJzl0K3z/f0kS4bhk5IgCfUImvY.g8tO',
       createdAt: new Date,
       updatedAt: new Date
-    }], {});
+    } ], {});
   },
 
   down: (queryInterface, Sequelize) => {
