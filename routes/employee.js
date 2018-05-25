@@ -30,15 +30,8 @@ router.get('/', (req, res) => {
 //============= add employee ============
 router.get('/add', (req, res) => {
   res.render('addEmployee', {
-      error: false
-    })
-    .catch(function(err) {
-      res.render("addEmployee", {
-        error: true,
-        err: err.message
-      })
-    })
-
+    error: false
+  })
 })
 
 

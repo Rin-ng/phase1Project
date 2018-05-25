@@ -276,6 +276,8 @@ router.get("/:id/details", function(req,res){
   })
 })
 
+
+//===== Add New Orders ====
 router.post("/:id/details/add", function(req,res){
   let input = req.body;
   let id = Number(req.params.id);
@@ -325,6 +327,7 @@ router.post("/:id/details/add", function(req,res){
         let totalPrice = menuPrice + addOnPrice;
         let orderId = specialOrder[0].Order.id;
 
+
         Order.update({
           totalPrice: totalPrice
         }, {where: {id: orderId}})
@@ -336,7 +339,8 @@ router.post("/:id/details/add", function(req,res){
             addOn: addOnQty,
             error: false,
             price: price,
-            totalPrice: totalPrice
+            totalPrice: totalPrice,
+            customerName: specialOrder[0].Order.customerName
           })
         })
       })

@@ -24,6 +24,11 @@ router.get('/', function (req, res) {
       {
         model: Menu
       }
+
+    ],
+    order: [
+      ['id', 'ASC']
+
     ]
   })
   .then(function(orders){
@@ -54,10 +59,34 @@ router.get("/:id/delete", function(req,res){
      }
    })
  .then(function() {
-   res.redirect('/')
+   AdditionalIngredient.destroy({
+     where:{
+       OrderId: orderId
+     }
+   })
+   .then(function(){
+     res.redirect('/orders')
+   })
  })
  .catch(function(err){
-
+   Order.findAll({
+     include: [
+       {
+         model: AdditionalIngredient,
+         include: [ { model: Ingredient } ]
+       },
+       {
+         model: Menu
+       }
+     ]
+   })
+   .then(function (orders){
+     res.render("showOrders", {
+       orders: orders,
+       error: true,
+       err: err.message
+     })
+   })
  })
 })
 
