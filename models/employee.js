@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {
     hooks:{
-      beforeCreate((user,options)=>{
+      beforeCreate: (user,options)=>{
         return bcrypt.hash(user.password,10)
         .then (hash=>{
           user.password = hash
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         .catch(err=>{
           throw err
         })
-      })
+      }
     }
 
   });
