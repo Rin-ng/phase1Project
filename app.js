@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const port = process.env.port || 3000;
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({
@@ -56,4 +57,4 @@ app.use("/employees", employeeRoutes);
 const ordersRoutes = require("./routes/orders");
 app.use("/orders", ordersRoutes);
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(port, () => console.log('Example app listening on port 3000!'))
