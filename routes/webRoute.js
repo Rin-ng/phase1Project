@@ -56,7 +56,7 @@ router.post('/login',(req, res) => {
   .catch(function(err){
     res.render("loginForm", {
       error: {
-        message: "Username and Password must be filled!"
+        message: "Username / Password Invalid !"
       }
     })
   })
