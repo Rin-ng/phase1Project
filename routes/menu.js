@@ -327,6 +327,7 @@ router.post("/:id/details/add", function(req,res){
         let totalPrice = menuPrice + addOnPrice;
         let orderId = specialOrder[0].Order.id;
 
+
         Order.update({
           totalPrice: totalPrice
         }, {where: {id: orderId}})

@@ -24,9 +24,11 @@ router.get('/', function (req, res) {
       {
         model: Menu
       }
+
     ],
     order: [
       ['id', 'ASC']
+
     ]
   })
   .then(function(orders){
