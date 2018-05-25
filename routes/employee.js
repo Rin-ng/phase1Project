@@ -38,24 +38,21 @@ router.get('/add', (req, res) => {
 
 //========== add employee post =========
 router.post('/add', (req, res) => {
-  bcrypt.hash(req.body.password, saltRounds, function(err, hash){
-    Employee.create({
-        name: req.body.name,
-        username: req.body.username,
-        password: hash,
-        error: false
-      })
-      .then(function() {
-        res.redirect('/employees')
-      })
-      .catch(function(err) {
-        res.render("addEmployee", {
-          error: true,
-          err: err.message
-        })
-      })
+  Employee.create({
+    name: req.body.name,
+    username: req.body.username,
+    password: req.body.password,
+    error: false
   })
-
+  .then(function() {
+    res.redirect('/employees')
+  })
+  .catch(function(err) {
+    res.render("addEmployee", {
+      error: true,
+      err: err.message
+    })
+  })
 })
 
 
