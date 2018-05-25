@@ -16,7 +16,7 @@ module.exports = {
     //   console.log('done')
     // })
 
-    return queryInterface.create('Employees', [{
+    return queryInterface.bulkInsert('Employees', [{
       name: 'brama',
       username: 'bramPrasetyo',
       password:'$2b$10$pmDV.f7p3omqT3obJ84bCeJzl0K3z/f0kS4bhk5IgCfUImvY.g8tO',
@@ -33,5 +33,7 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
+
+    return queryInterface.bulkDelete("Employees", null, {});
   }
 };
