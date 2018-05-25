@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <% if (error) {%>
+    <h3 style="text-align:center"><%= error.message %></h3>
+    <% }%>
+      <div class="container">
+        <div class="row">
+          <div class="form-group">
+            <form action="/login" method="POST">
+              Username:<br>
+              <input type="text" name="username" class="form-control">
+              <br> Password:
+              <br>
+              <input type="password" name="password" class="form-control">
+              <br>
+              <input type="submit" value="Login" class="btn btn-primary">
+              <button type="button" style="margin-left: 30px;" class="btn btn-primary"><a href="/" style="text-decoration:none; color:white">Cancel</a></button>
+            </form>
+          </div>
+        </div>
+      </div>
+</body>
+
+</html>

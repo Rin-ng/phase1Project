@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <% if (error) {%>
+  <h3 style="text-align:center"><%= err%></h3>
+  <% }%>
+  <div class="container">
+    <h2 align="center"><%= menus.name%></h2>
+    <h5 align="center">Price: <%= helper.addIdr(menus) %></h5>
+    <hr>
+    <table align="center">
+      <thead>
+          <th style="text-decoration:underline"> Default menu: <th>
+        </tr>
+      </thead>
+      <tbody>
+        <% menus.Ingredients.forEach((menu)=>{ %>
+        <tr>
+          <td> <%= menu.name %> </td>
+          <td><%= quantityIngredientHelper.quantityFormat(menu)%></td>
+        </tr>
+        <% })%>
+      </tbody>
+    </table>
+    <hr>
+    <br>
+
+    <form action="/menu/<%= menus.id%>/details/add" method="POST">
+    <table class="table">
+      <thead>
+        <tr style="text-align:center">
+          <th> Quantity Added: </th>
+          <th> Additional Ingredient: </th>
+          <th> Additional Price: </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ingredient.forEach((ingredient)=>{ %>
+        <tr style="text-align: center">
+          <td><input type="text" name="<%= ingredient.id%>" style="max-width: 45px"> </td>
+          <td><%= ingredient.name %> </td>
+          <td><%= helper.addIdr(ingredient) %></td>
+        </tr>
+      <% })%>
+      </tbody>
+    </table>
+  </div>
+  <br> <br>
+  <div style="text-align:center">
+    <label>Customer Name:</label>
+    <input type="text" name="customerName" required>
+    <br> <br>
+    <button type="submit" onclick="return confirm('Continue Purchase?')">Buy</button>
+    <button type="button" style="margin-left: 30px;"><a href="/" style="text-decoration:none; color:black;">Cancel</a></button>
+  </form>
+  </div>
+
+</body>
+
+</html>

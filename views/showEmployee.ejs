@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> Data Employee</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <% if (error) {%>
+    <h3 style="text-align:center"><%= err%></h3>
+    <% }%>
+    <div class="container">
+      <h2 align="center">Data Employee</h2>
+      <h4 align="center" > <a href="/employees/add"> Add Employee </a> </h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> Id </th>
+            <th> Name </th>
+            <th> Username </th>
+            <th> Password </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% dataEmployee.forEach((employee)=>{ %>
+          <tr>
+            <td><%= employee.id %></td>
+            <td> <%= employee.name %> </td>
+            <td> <%= employee.username %> </td>
+            <td><%= employee.password%></td>
+          </tr>
+          <% })%>
+        </tbody>
+      </table>
+      <button type="button" style="float:right; margin-right: 50px">
+        <a href="/dashboard" style="color: black; text-decoration:none;">Back</a>
+      </button>
+    </div>
+  </body>
+
+</html>
